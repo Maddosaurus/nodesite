@@ -5,12 +5,11 @@ var express      = require('express');
 	app          = express();
 
 app.configure(function(){
-	app.use(express.bodyParser());
-	app.use(app.router);
 	app.use(express.static(path.join(__dirname, 'public')));
+	app.use(app.router);
+	app.use(express.bodyParser());
 }); 
 
-app.get('/', nodeSite.showIndex);
 app.post('/user/create', mongoFunc.saveUser);
 app.get('/user/:email', mongoFunc.readUser);
 

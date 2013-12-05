@@ -1,3 +1,4 @@
+/* 
 fs = require('fs');
 
 exports.showIndex = function(req, res) {
@@ -17,3 +18,4 @@ exports.showIndex = function(req, res) {
 
 }
 
+*/
