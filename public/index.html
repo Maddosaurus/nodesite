@@ -7,6 +7,7 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
+		
 		  var socket = io.connect('http://localhost:5885');
 		  socket.on('handshake', function (data) {
 		    console.log(data);
@@ -14,7 +15,7 @@
 		    
 		    socket.on('response', function (data) {
 		  		console.log(data);
-		  		document.getElementById('cam').src='data:image/jpg;base64,' + data.data;
+		  		//$("#cam").attr("src","data:image/jpg;base64," + data);
 		  	});
 		  });
 
@@ -23,15 +24,20 @@
 		<script type="text/javascript">
 
 			function clickToStore(){
-					$.ajax({
-							url: "/user/create",
-							data: {email: "db.users.find()", password: "geheim"},
-							datatype: "json",
-							type: "POST",
-							success: function(data) {
-								console.dir(data);
-							}
-					   });
+
+				$.ajax({
+						url: "/index.html",
+						data: null,
+						datatype: "json",
+						type: "GET",
+						success: function(data) {
+							console.dir(data);
+					
+							$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://192.168.1.200:554/rtspjpeg480p\" />");
+						}
+				   });
+
+				
 			}
 
 			function clickToFind(email){
@@ -47,8 +53,11 @@
 		</script>
 </head>
 <body>
-		<img id="cam" src="#" /><br />
+		<img id="cam" src="http://localhost:5885/uploads/529f97fa6ff48dc0a0c2e646/xxx.jpg" /><br />
+		<div id="stream"></div>
+		
 		<button type="button" id="myClickBtn" onclick="clickToStore()">go!</button>
 		<button type="button" id="mySearchBtn" onclick="clickToFind('bbbbbbaa@aaarrrr.de')">lookup</button>
+
 </body>
 </html>
