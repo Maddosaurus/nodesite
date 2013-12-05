@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+		  var socket = io.connect('http://localhost:5885');
+		  socket.on('handshake', function (data) {
+		    console.log(data);
+		    socket.emit('request', { my: 'data' });
+		    
+		    socket.on('response', function (data) {
+		  		console.log(data);
+		  	});
+		  });
+
+		</script>
+
+		<script type="text/javascript">
+
+			function clickToStore(){
+					$.ajax({
+							url: "/user/create",
+							data: {email: "db.users.find()", password: "geheim"},
+							datatype: "json",
+							type: "POST",
+							success: function(data) {
+								console.dir(data);
+							}
+					   });
+			}
+
+			function clickToFind(email){
+				$.ajax({
+							url: "/user/" + email,
+							type: "GET",
+							success: function(data) {
+								console.dir(data);
+							}
+					   });
+			}
+
+		</script>
+</head>
+<body>
+		<button type="button" id="myClickBtn" onclick="clickToStore()">go!</button>
+		<button type="button" id="mySearchBtn" onclick="clickToFind('bbbbbbaa@aaarrrr.de')">lookup</button>
+</body>
+</html>
