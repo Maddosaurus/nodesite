@@ -12,6 +12,7 @@ app.configure(function(){
 
 app.post('/user/create', mongoFunc.saveUser);
 app.get('/user/:email', mongoFunc.readUser);
+app.get('/cam/:from/:to', mongoFunc.getFilelist);
 
 app.listen(64742);
 console.log('Listening on port 64742...');

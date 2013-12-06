@@ -10,18 +10,62 @@
 		
 		  var socket = io.connect('http://localhost:5885');
 		  socket.on('handshake', function (data) {
-		    console.log(data);
-		    socket.emit('request', { my: 'data' });
-		    
-		    socket.on('response', function (data) {
-		  		console.log(data);
-		  		//$("#cam").attr("src","data:image/jpg;base64," + data);
-		  	});
+			console.log(data);
+			socket.emit('request', { my: 'data' });
+			
+			socket.on('response', function (data) {
+				console.log(data);	
+			});
 		  });
 
 		</script>
 
 		<script type="text/javascript">
+
+
+			function getCam(){
+				//console.log("/cam/" + $("#von").val() +"/" +$("#bis").val());
+
+				$(document).ready(function () {
+
+
+						$.ajax({
+							url: "/cam/" + $("#von").val() +"/" +$("#bis").val(),
+							data: null,
+							datatype: "json",
+							type: "GET",
+							success: function(data) {
+								//console.dir(data);
+
+								//Checking Web worker Support
+								if (typeof (Worker) !== "undefined") {
+									//Creating Worker Object
+									var worker = new Worker("worker.js");
+									//Call Back Function for Success
+									worker.onmessage = workerResultReceiver;
+									//Call Back function if some error occurred
+									worker.onerror = workerErrorReceiver;    
+									//Posting Data to worker: Here We are passing Email ID
+									worker.postMessage(data);
+
+									function workerResultReceiver(e) {
+										//Updating UI With Result
+										//console.log("everything is fine - " + e.data);
+										$("#cam").attr("src", e.data);
+								 	}
+
+								 	function workerErrorReceiver(e) {
+										console.log("there was a problem with the WebWorker within " + e);
+								 	}
+							 	} else {
+									alert("Sorry!!! Worker Not Supported in Your Browser");
+								}
+							}
+					   	});					
+		 		});
+			}
+
+
 
 			function clickToStore(){
 
@@ -31,7 +75,7 @@
 						datatype: "json",
 						type: "GET",
 						success: function(data) {
-							console.dir(data);
+							//console.dir(data);
 					
 							$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://192.168.1.200:554/rtspjpeg480p\" />");
 						}
@@ -56,6 +100,10 @@
 		<img id="cam" src="http://localhost:5885/uploads/529f97fa6ff48dc0a0c2e646/xxx.jpg" /><br />
 		<div id="stream"></div>
 		
+		<input type="text" name="von" id="von" placeholder="von" value="1386287940" />
+		<input type="text" name="bis" id="bis" placeholder="bis" value="1386354196" />
+		<input type="button" id="getCamBtn" onclick="getCam()" value="get!" />
+
 		<button type="button" id="myClickBtn" onclick="clickToStore()">go!</button>
 		<button type="button" id="mySearchBtn" onclick="clickToFind('bbbbbbaa@aaarrrr.de')">lookup</button>
 
