@@ -7,8 +7,9 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-		
-		  var socket = io.connect('http://localhost:5885');
+		//Hier muss Anpassung für Hostname
+		  //var socket = io.connect('http://localhost:5885');
+		  var socket = io.connect('http://' + location.hostname + ':5885');
 		  socket.on('handshake', function (data) {
 			console.log(data);
 			socket.emit('request', { my: 'data' });
@@ -21,6 +22,11 @@
 		</script>
 
 		<script type="text/javascript">
+
+			$(document).ready(function() {
+				$("#cam").attr("src","http://" + location.hostname + ":5885/uploads/529f97fa6ff48dc0a0c2e646/xxx.jpg");
+			});
+		
 
 
 			function getCam(){
@@ -42,21 +48,29 @@
 									//Creating Worker Object
 									var worker = new Worker("worker.js");
 									//Call Back Function for Success
-									worker.onmessage = workerResultReceiver;
-									//Call Back function if some error occurred
-									worker.onerror = workerErrorReceiver;    
-									//Posting Data to worker: Here We are passing Email ID
-									worker.postMessage(data);
-
-									function workerResultReceiver(e) {
+									//worker.onmessage = workerResultReceiver;
+									worker.onmessage = function workerResultReceiver(e) {
 										//Updating UI With Result
 										//console.log("everything is fine - " + e.data);
 										$("#cam").attr("src", e.data);
-								 	}
-
-								 	function workerErrorReceiver(e) {
+								 	};
+									//Call Back function if some error occurred
+									//worker.onerror = workerErrorReceiver;    
+									worker.onerror = function workerErrorReceiver(e) {
 										console.log("there was a problem with the WebWorker within " + e);
-								 	}
+								 	};
+									//Posting Data to worker: Here We are passing Email ID
+									worker.postMessage(data);
+
+									/*function workerResultReceiver(e) {
+										//Updating UI With Result
+										//console.log("everything is fine - " + e.data);
+										$("#cam").attr("src", e.data);
+								 	}*/
+
+								 	/*function workerErrorReceiver(e) {
+										console.log("there was a problem with the WebWorker within " + e);
+								 	}*/
 							 	} else {
 									alert("Sorry!!! Worker Not Supported in Your Browser");
 								}
@@ -77,7 +91,8 @@
 						success: function(data) {
 							//console.dir(data);
 					
-							$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://192.168.1.200:554/rtspjpeg480p\" />");
+							//$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://192.168.1.200:554/rtspjpeg480p\" />");
+							$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://178.15.200.114:556/rtspjpeg480p\" />");
 						}
 				   });
 
@@ -90,14 +105,16 @@
 							type: "GET",
 							success: function(data) {
 								console.dir(data);
-							}
+							}					
 					   });
+							console.dir(location.hostname);
 			}
 
 		</script>
 </head>
 <body>
-		<img id="cam" src="http://localhost:5885/uploads/529f97fa6ff48dc0a0c2e646/xxx.jpg" /><br />
+						<!-- Hier muss Anpassung für Hostname -->	
+		<img id="cam" src="" alt="Cam1" /><br />
 		<div id="stream"></div>
 		
 		<input type="text" name="von" id="von" placeholder="von" value="1386287940" />

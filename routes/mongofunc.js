@@ -1,8 +1,24 @@
-var userDbUrl = "192.168.1.119/nodeDB"; // "username:password@example.com/mydb"
+//determine host system ip
+var sysip;
+var os=require('os');
+var ifaces=os.networkInterfaces();
+for (var dev in ifaces) {
+	var alias=0;
+	ifaces[dev].forEach(function(details){
+		if (details.family=='IPv4' & details.internal==false) {
+			sysip = details.address;
+			++alias;
+		}
+	});
+}
+
+//var userDbUrl = "192.168.1.119/nodeDB"; // "username:password@example.com/mydb"
+var userDbUrl = sysip + "/nodeDB";
 var ucollections = ["users"];
 var udb = require("mongojs").connect(userDbUrl, ucollections);
 
-var gridDbUrl = "192.168.1.119/grDB";
+//var gridDbUrl = "192.168.1.119/grDB";
+var gridDbUrl  = sysip + "/grDB";
 var gcollections = ["fs.files"];
 var gdb = require("mongojs").connect(gridDbUrl, gcollections);
 

@@ -14,7 +14,9 @@ self.addEventListener('message', function (e) {
 			
 			do {
 				if((end - begin) > 250 ) {
-					postMessage("http://localhost:5885/uploads/" + data[i][0] + "/" + data[i][1]);
+							//Hier muss Anpassung für Hostname
+					//postMessage("http://localhost:5885/uploads/" + data[i][0] + "/" + data[i][1]);
+					postMessage("http://" + location.hostname + ":5885/uploads/" + data[i][0] + "/" + data[i][1]);					
 					begin = new Date().getTime();
 					//console.log(data[i][1]);		
 					i++;
@@ -25,5 +27,7 @@ self.addEventListener('message', function (e) {
 			postMessage(null);
 		}
 	}
+
+	self.close();
 
 }, false);
