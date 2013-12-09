@@ -25,6 +25,7 @@
 
 			$(document).ready(function() {
 				$("#cam").attr("src","http://" + location.hostname + ":5885/uploads/529f97fa6ff48dc0a0c2e646/xxx.jpg");
+				//$("#cam").attr("src","http://localhost:5885/uploads/529f97fa6ff48dc0a0c2e646/xxx.jpg");
 			});
 		
 
@@ -116,9 +117,9 @@
 						<!-- Hier muss Anpassung für Hostname -->	
 		<img id="cam" src="" alt="Cam1" /><br />
 		<div id="stream"></div>
-		
-		<input type="text" name="von" id="von" placeholder="von" value="1386287940" />
-		<input type="text" name="bis" id="bis" placeholder="bis" value="1386354196" />
+
+		<input type="text" name="von" id="von" placeholder="von" value="1386619632" />
+		<input type="text" name="bis" id="bis" placeholder="bis" value="1386619650" />
 		<input type="button" id="getCamBtn" onclick="getCam()" value="get!" />
 
 		<button type="button" id="myClickBtn" onclick="clickToStore()">go!</button>
