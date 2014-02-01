@@ -22,31 +22,6 @@ var gridDbUrl  = sysip + "/grDB";
 var gcollections = ["fs.files"];
 var gdb = require("mongojs").connect(gridDbUrl, gcollections);
 
-exports.saveUser = function(req, res) {
-	udb.users.save({email: req.body.email, password: req.body.password, sex: "male"}, function(err, saved) {
-		if( err || !saved ) {
-			console.log("User not saved");
-		} else {
-			console.log("User saved");
-			res.send("User saved!");
-		}
-		});
-}
-
-exports.readUser = function(req,res) {
-	udb.users.find({email: req.params.email}, function(err, users) {
-		if( err || !users) {
-			console.log("No user(s) with mail " + email + " found");
-		} else {
-			// TODO: If result > 1 --> failure
-			users.forEach( function(foundUsers) {
-				console.log(foundUsers);
-				res.send(foundUsers);
-			});
-		}
-	});
-}
-
 exports.getFilelist = function(req, res) {
 	var tupel;
 	var ret = new Array();
@@ -73,5 +48,3 @@ exports.getFilelist = function(req, res) {
 	});
 
 }
-
-//{created_on: {$gte: start, $lt: end}});

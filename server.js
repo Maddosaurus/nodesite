@@ -1,5 +1,4 @@
 var express      = require('express');
-	nodeSite	 = require('./routes/nodesite');
 	mongoFunc	 = require('./routes/mongofunc');
 	path		 = require('path');
 	app          = express();
@@ -10,8 +9,6 @@ app.configure(function(){
 	app.use(express.bodyParser());
 }); 
 
-app.post('/user/create', mongoFunc.saveUser);
-app.get('/user/:email', mongoFunc.readUser);
 app.get('/cam/:from/:to', mongoFunc.getFilelist);
 
 app.listen(64742);
