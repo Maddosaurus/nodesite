@@ -7,8 +7,6 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-		//Hier muss Anpassung für Hostname
-		  //var socket = io.connect('http://localhost:5885');
 		  var socket = io.connect('http://' + location.hostname + ':5885');
 		  socket.on('handshake', function (data) {
 			console.log(data);
@@ -71,11 +69,8 @@
 						datatype: "json",
 						type: "GET",
 						success: function(data) {
-							//console.dir(data);
-					
-							//$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://192.168.1.200:554/rtspjpeg480p\" />");
-							$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://178.15.200.114:556/rtspjpeg480p\" />");
-							//$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://192.168.1.120:8554/proxyStream\" />");
+
+							$("#stream").html("<embed type=\"application/x-vlc-plugin\" pluginspage=\"http://www.videolan.org\" version=\"VideoLAN.VLCPlugin.2\"  width=\"640px\"  height=\"480px\" id=\"vlc\" loop=\"yes\" autoplay=\"yes\" target=\"rtsp://192.168.1.120:8554/proxyStream\" />");
 						}
 				   });
 
@@ -84,7 +79,6 @@
 		</script>
 </head>
 <body>
-						<!-- Hier muss Anpassung für Hostname -->	
 		<img id="cam" src="" alt="Cam1" /><br />
 		<div id="stream"></div>
 
